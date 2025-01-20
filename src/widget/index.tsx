@@ -19,9 +19,7 @@ function onReady() {
 
     shadowRoot.id = 'widget-root';
 
-    const component = (
-      <WidgetContainer clientKey={clientKey} />
-    );
+    const component = <WidgetContainer clientKey={clientKey} />;
 
     shadow.appendChild(shadowRoot);
     injectStyle(shadowRoot);
