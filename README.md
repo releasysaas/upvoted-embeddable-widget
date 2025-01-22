@@ -16,7 +16,7 @@ To get started, follow these steps:
 1. Clone this repository to your local machine.
 2. Install the dependencies by running `npm install` or `pnpm install` depending on your preferred package manager.
 3. Run the development server by running `npm run dev` or `pnpm dev`.
-4. Open your browser and navigate to `http://localhost:3000` to see the widget in action.
+4. Open your browser and navigate to `http://localhost:5173` to see the widget in action.
 
 ### Structure
 
@@ -79,7 +79,7 @@ pnpm dev
 
 ### Opening the Widget in Your Browser
 
-Once the development server is running, you can open your browser and navigate to `http://localhost:3000` to see the widget in action.
+Once the development server is running, you can open your browser and navigate to `http://localhost:5173` to see the widget in action.
 
 ## Bundling the Widget
 
@@ -127,17 +127,19 @@ pnpm serve
 
 This will start a local server and serve the widget at `http://localhost:33333/index.html`.
 
-## Deploying the Widget to a CDN
+## How to install the widget in your web app
 
-Depending on which provider you want to use, you can deploy the widget to a CDN, or simply host it on your own server.
+1. Load the widget on your page:
 
-Copy the bundled files from the `dist` directory to your server and have the consumers of the widget use the script tags to load the widget.
+   ```html
+   <script
+     src="https://unpkg.com/upvoted-embeddable-widget@latest"
+     defer
+     data-client-key="019483fc-b33e-7456-a5df-5bfa9ede6429"
+   ></script>
+   ```
 
-If your widget is hosted on a CDN, you can use the following script tag:
-
-```html
-<script async src="https://example.com/widget.js"></script>
-```
+2. replace the `data-client-key` value with the API token generated from the Upvoted backoffice.
 
 ## Contributing
 
