@@ -145,13 +145,39 @@ pnpm serve:widget
 
    ```html
    <script
-     src="https://unpkg.com/upvoted-embeddable-widget@latest"
+     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.0.0/dist/widget.js"
      defer
      data-client-key="019483fc-b33e-7456-a5df-5bfa9ede6429"
    ></script>
    ```
 
 2. replace the `data-client-key` value with the API token generated from the Upvoted backoffice.
+
+## How to deploy an updated version
+
+1. create a new tag:
+
+```
+git tag 2.0.0
+```
+
+2. update the version in the readme
+
+3. update the version in `test/index.html`
+
+4. update the version in `.env.production`
+
+5. build the widget
+
+```
+npm run build:widget:production
+```
+
+5. push all
+
+```
+git push origin --tags
+```
 
 ## Contributing
 
