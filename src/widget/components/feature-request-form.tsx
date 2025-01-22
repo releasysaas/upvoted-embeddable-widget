@@ -98,25 +98,24 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
     setErrors({});
 
     try {
-      // const response = await fetch('https://upvoted.io/api/boards/features', {
-      const response = await fetch(
-        'http://localhost:4000/api/boards/features',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({
-            title: formData.title,
-            description: formData.description,
-            contributor: {
-              name: formData.name,
-              email: formData.email,
-            },
-          }),
+      const upvotedEndpoint =
+        process.env.UPVOTED_ENDPOINT ||
+        `http://localhost:4000/api/boards/features`;
+      const response = await fetch(upvotedEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      );
+        body: JSON.stringify({
+          title: formData.title,
+          description: formData.description,
+          contributor: {
+            name: formData.name,
+            email: formData.email,
+          },
+        }),
+      });
 
       const data = (await response.json()) as ApiErrorResponse;
 

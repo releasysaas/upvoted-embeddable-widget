@@ -127,6 +127,18 @@ pnpm serve
 
 This will start a local server and serve the widget at `http://localhost:33333/index.html`.
 
+Then in an other shell run:
+
+```bash
+npm run serve:widget
+```
+
+or
+
+```bash
+pnpm serve:widget
+```
+
 ## How to install the widget in your web app
 
 1. Load the widget on your page:
