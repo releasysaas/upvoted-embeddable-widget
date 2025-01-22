@@ -2,13 +2,11 @@ import { useContext } from 'react';
 import { WidgetContext } from '../lib/context';
 import { X } from 'lucide-react';
 import FeatureRequestForm from './feature-request-form';
-import { Toaster } from 'sonner';
 export function Widget() {
   const { isOpen, setIsOpen, clientKey } = useContext(WidgetContext);
 
   return (
     <>
-      <Toaster position='bottom-right' />
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}

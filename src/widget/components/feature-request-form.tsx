@@ -1,5 +1,4 @@
-import { useState, FormEvent, ChangeEvent } from 'react';
-import { toast } from 'sonner';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 interface FormData {
   title: string;
   description: string;
@@ -43,6 +42,25 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  // Reset form after success message
+  useEffect(() => {
+    if (showSuccess) {
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+        setFormData({
+          title: '',
+          description: '',
+          name: '',
+          email: '',
+        });
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess]);
+
   const validate = (): FormErrors => {
     const newErrors: FormErrors = {};
 
@@ -80,7 +98,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
     setErrors({});
 
     try {
-      //const response = await fetch('https://upvoted.io/api/boards/features', {
+      // const response = await fetch('https://upvoted.io/api/boards/features', {
       const response = await fetch(
         'http://localhost:4000/api/boards/features',
         {
@@ -103,11 +121,9 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
       const data = (await response.json()) as ApiErrorResponse;
 
       if (!response.ok) {
-        // Handle API errors
         if (data.errors) {
           const apiErrors: FormErrors = {};
 
-          // Handle contributor nested errors
           if (data.errors.contributor) {
             if (data.errors.contributor.name) {
               apiErrors.name = data.errors.contributor.name[0];
@@ -117,7 +133,6 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             }
           }
 
-          // Handle direct field errors
           if (data.errors.title) {
             apiErrors.title = data.errors.title[0];
           }
@@ -130,22 +145,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         return;
       }
 
-      toast.success('Feature request submitted successfully!', {
-        duration: 1000,
-        style: {
-          background: '#1d293b',
-          color: '#ffffff',
-          border: '1px solid #475569',
-        },
-      });
-
-      // Success - reset form
-      setFormData({
-        title: '',
-        description: '',
-        name: '',
-        email: '',
-      });
+      // Show success message
+      setShowSuccess(true);
     } catch (error) {
       setErrors({
         submit:
@@ -265,16 +266,24 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
           <p className='text-sm text-red-500'>{errors.submit}</p>
         )}
 
-        <button
-          type='submit'
-          disabled={isSubmitting}
-          className='w-full bg-widget-focus text-white py-2 px-4 rounded-md
-                     hover:bg-opacity-90 focus:outline-none focus:ring-2
-                     focus:ring-widget-focus focus:ring-offset-2
-                     focus:ring-offset-widget-bg disabled:opacity-50'
-        >
-          {isSubmitting ? 'Submitting...' : 'Submit Feature Request'}
-        </button>
+        {showSuccess ? (
+          <div className='flex items-center justify-center p-4 bg-green-500 bg-opacity-20 border border-green-500 rounded-md'>
+            <p className='text-green-400 font-medium'>
+              Feature request submitted successfully! ✨
+            </p>
+          </div>
+        ) : (
+          <button
+            type='submit'
+            disabled={isSubmitting}
+            className='w-full bg-widget-focus text-white py-2 px-4 rounded-md
+                             hover:bg-opacity-90 focus:outline-none focus:ring-2
+                             focus:ring-widget-focus focus:ring-offset-2
+                             focus:ring-offset-widget-bg disabled:opacity-50'
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit Feature Request'}
+          </button>
+        )}
       </form>
     </div>
   );
