@@ -13,8 +13,7 @@ export default {
             light: '#f0f0f0', // Light mode input
             dark: '#1d293b', // Dark mode input
           },
-          border: '#475569',
-          focus: '#d8770b',
+          focus: '#e19822',
         },
       },
     },

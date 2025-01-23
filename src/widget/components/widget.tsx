@@ -27,18 +27,20 @@ export function Widget() {
             className='fixed inset-0 bg-widget-bg-light dark:bg-widget-bg-dark lg:right-0 lg:left-auto lg:w-[500px]
                         flex flex-col shadow-xl z-50 animate-in slide-in-from-right duration-200'
           >
-            <div className='flex items-center justify-between p-4 border-b border-widget-border'>
-              <img
-                src='https://upvoted.s3.us-east-1.amazonaws.com/public/logo_light.svg'
-                alt='Upvoted'
-                className='h-9'
-              />
-              <h3 className='text-md font-semibold text-white'>
+            <div className='flex items-center justify-between p-4 border-b border-1 dark:border-gray-800'>
+              <a href='https://upvoted.io' target='_blank'>
+                <img
+                  src='https://upvoted.s3.us-east-1.amazonaws.com/public/logo_light.svg'
+                  alt='Upvoted'
+                  className='h-9'
+                />
+              </a>
+              <h3 className='text-md font-semibold text-slate-700 dark:text-white'>
                 Submit Feature Request
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className='p-2 text-neutral-800 dark:text-white hover:bg-widget-input-light dark:bg-widget-input-dark rounded-full transition-colors'
+                className='p-2 text-slate-700 dark:text-white hover:bg-widget-input-light dark:bg-widget-input-dark rounded-full transition-colors'
                 aria-label='Close feature request form'
               >
                 <X className='w-5 h-5' />

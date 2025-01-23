@@ -172,7 +172,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='title'
-            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
+            className='block text-sm font-medium mb-1 text-slate-700 dark:text-white'
           >
             Title*
           </label>
@@ -182,9 +182,9 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             name='title'
             value={formData.title}
             onChange={handleChange}
-            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border-1
                        rounded-md focus:outline-none focus:ring-2
-                       focus:ring-widget-focus focus:border-widget-focus text-neutral-800 dark:text-white'
+                       focus:ring-widget-focus focus:border-widget-focus text-slate-700 dark:text-white'
             disabled={isSubmitting}
           />
           {errors.title && (
@@ -195,7 +195,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='description'
-            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
+            className='block text-sm font-medium mb-1 text-slate-700 dark:text-white'
           >
             Description*
           </label>
@@ -205,8 +205,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             value={formData.description}
             onChange={handleChange}
             rows={4}
-            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
-                       text-neutral-800 dark:text-white rounded-md focus:outline-none focus:ring-2
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border-1
+                       text-slate-700 dark:text-white rounded-md focus:outline-none focus:ring-2
                        focus:ring-widget-focus focus:border-widget-focus'
             disabled={isSubmitting}
           />
@@ -218,7 +218,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='name'
-            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
+            className='block text-sm font-medium mb-1 text-slate-700 dark:text-white'
           >
             Name*
           </label>
@@ -228,8 +228,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             name='name'
             value={formData.name}
             onChange={handleChange}
-            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
-                       text-neutral-800 dark:text-white rounded-md focus:outline-none focus:ring-2
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border-1
+                       text-slate-700 dark:text-white rounded-md focus:outline-none focus:ring-2
                        focus:ring-widget-focus focus:border-widget-focus'
             disabled={isSubmitting}
           />
@@ -241,7 +241,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='email'
-            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
+            className='block text-sm font-medium mb-1 text-slate-700 dark:text-white'
           >
             Email*
           </label>
@@ -251,8 +251,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             name='email'
             value={formData.email}
             onChange={handleChange}
-            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
-                       text-neutral-800 dark:text-white rounded-md focus:outline-none focus:ring-2
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border-1
+                       text-slate-700 dark:text-white rounded-md focus:outline-none focus:ring-2
                        focus:ring-widget-focus focus:border-widget-focus'
             disabled={isSubmitting}
           />
@@ -266,7 +266,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         )}
 
         {showSuccess ? (
-          <div className='flex items-center justify-center p-4 bg-green-500 bg-opacity-20 border border-green-500 rounded-md'>
+          <div className='flex items-center justify-center p-4 bg-green-500 bg-opacity-20 border-1 border-green-500 rounded-md'>
             <p className='text-green-400 font-medium'>
               Feature request submitted successfully! ✨
             </p>
@@ -275,14 +275,19 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
           <button
             type='submit'
             disabled={isSubmitting}
-            className='w-full bg-widget-focus text-neutral-800 dark:text-white py-2 px-4 rounded-md
+            className='w-full bg-widget-focus text-white dark:text-white py-2 px-4 rounded-md
                              hover:bg-opacity-90 focus:outline-none focus:ring-2
                              focus:ring-widget-focus focus:ring-offset-2
-                             focus:ring-offset-widget-bg disabled:opacity-50'
+                             focus:ring-offset-widget-bg disabled:opacity-50 text-md'
           >
             {isSubmitting ? 'Submitting...' : 'Submit Feature Request'}
           </button>
         )}
+        <p className='text-xs text-slate-700 dark:text-white float-right'>
+          <a href='https://upvoted.io' target='_blank'>
+            Powered by Upvoted
+          </a>
+        </p>
       </form>
     </div>
   );
