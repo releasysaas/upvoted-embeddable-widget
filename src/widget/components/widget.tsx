@@ -11,7 +11,7 @@ export function Widget() {
         {!isOpen ? (
           <button
             onClick={() => setIsOpen(true)}
-            className='fixed bottom-0 right-0 flex items-center gap-2 m-6 px-3 py-3
+            className='fixed bottom-0 right-0 flex items-center gap-2 m-6 px-1 py-1
                        bg-widget-bg-light hover:bg-widget-input-light dark:bg-widget-input-dark text-white rounded-full shadow-lg
                        transition-colors duration-200 z-50'
             aria-label='Open feature request form'
