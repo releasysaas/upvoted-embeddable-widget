@@ -4,9 +4,13 @@ import { Widget } from './widget';
 
 interface WidgetContainerProps {
   clientKey: string;
+  className: string;
 }
 
-export function WidgetContainer({ clientKey }: WidgetContainerProps) {
+export function WidgetContainer({
+  clientKey,
+  className,
+}: WidgetContainerProps) {
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,7 +23,7 @@ export function WidgetContainer({ clientKey }: WidgetContainerProps) {
   }
 
   return (
-    <WidgetContext.Provider value={{ isOpen, setIsOpen, clientKey }}>
+    <WidgetContext.Provider value={{ isOpen, setIsOpen, clientKey, className }}>
       <Widget />
     </WidgetContext.Provider>
   );

@@ -3,15 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <title>Widget Test Page</title>
+    <style>
+      body {
+        background-color: #dedede; /* Using hex color */
+      }
+    </style>
   </head>
   <body>
-    <h1>Test Page</h1>
+    <h1>My awesome website</h1>
     <p>This page tests the widget integration.</p>
 
     <script
       async
-      src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.0.0/dist/widget.js"
+      src="http://127.0.0.1:3334/widget.js"
       data-client-key="01948e16-3f30-7918-bcc9-f68081a6b50e"
+      data-class-name="dark"
     ></script>
   </body>
 </html>

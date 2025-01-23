@@ -98,9 +98,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
     setErrors({});
 
     try {
-      const upvotedEndpoint =
-        process.env.UPVOTED_ENDPOINT ||
-        `http://localhost:4000/api/boards/features`;
+      //const upvotedEndpoint = 'http://localhost:4000/api/boards/features';
+      const upvotedEndpoint = 'https://upvoted.io/api/boards/features';
       const response = await fetch(upvotedEndpoint, {
         method: 'POST',
         headers: {
@@ -147,6 +146,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
       // Show success message
       setShowSuccess(true);
     } catch (error) {
+      console.log(error);
       setErrors({
         submit:
           'An error occurred while submitting the form. Please try again.',
@@ -172,7 +172,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='title'
-            className='block text-sm font-medium mb-1 text-white'
+            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
           >
             Title*
           </label>
@@ -182,9 +182,9 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             name='title'
             value={formData.title}
             onChange={handleChange}
-            className='w-full px-3 py-2 bg-widget-input border border-widget-border
-                       text-white rounded-md focus:outline-none focus:ring-2
-                       focus:ring-widget-focus focus:border-widget-focus'
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
+                       rounded-md focus:outline-none focus:ring-2
+                       focus:ring-widget-focus focus:border-widget-focus text-neutral-800 dark:text-white'
             disabled={isSubmitting}
           />
           {errors.title && (
@@ -195,7 +195,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='description'
-            className='block text-sm font-medium mb-1 text-white'
+            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
           >
             Description*
           </label>
@@ -205,8 +205,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             value={formData.description}
             onChange={handleChange}
             rows={4}
-            className='w-full px-3 py-2 bg-widget-input border border-widget-border
-                       text-white rounded-md focus:outline-none focus:ring-2
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
+                       text-neutral-800 dark:text-white rounded-md focus:outline-none focus:ring-2
                        focus:ring-widget-focus focus:border-widget-focus'
             disabled={isSubmitting}
           />
@@ -218,7 +218,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='name'
-            className='block text-sm font-medium mb-1 text-white'
+            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
           >
             Name*
           </label>
@@ -228,8 +228,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             name='name'
             value={formData.name}
             onChange={handleChange}
-            className='w-full px-3 py-2 bg-widget-input border border-widget-border
-                       text-white rounded-md focus:outline-none focus:ring-2
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
+                       text-neutral-800 dark:text-white rounded-md focus:outline-none focus:ring-2
                        focus:ring-widget-focus focus:border-widget-focus'
             disabled={isSubmitting}
           />
@@ -241,7 +241,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
         <div>
           <label
             htmlFor='email'
-            className='block text-sm font-medium mb-1 text-white'
+            className='block text-sm font-medium mb-1 text-neutral-800 dark:text-white'
           >
             Email*
           </label>
@@ -251,8 +251,8 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
             name='email'
             value={formData.email}
             onChange={handleChange}
-            className='w-full px-3 py-2 bg-widget-input border border-widget-border
-                       text-white rounded-md focus:outline-none focus:ring-2
+            className='w-full px-3 py-2 bg-widget-input-light dark:bg-widget-input-dark border border-widget-border
+                       text-neutral-800 dark:text-white rounded-md focus:outline-none focus:ring-2
                        focus:ring-widget-focus focus:border-widget-focus'
             disabled={isSubmitting}
           />
@@ -275,7 +275,7 @@ const FeatureRequestForm: React.FC<FeatureRequestFormProps> = ({
           <button
             type='submit'
             disabled={isSubmitting}
-            className='w-full bg-widget-focus text-white py-2 px-4 rounded-md
+            className='w-full bg-widget-focus text-neutral-800 dark:text-white py-2 px-4 rounded-md
                              hover:bg-opacity-90 focus:outline-none focus:ring-2
                              focus:ring-widget-focus focus:ring-offset-2
                              focus:ring-offset-widget-bg disabled:opacity-50'

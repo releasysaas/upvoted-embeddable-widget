@@ -16,10 +16,13 @@ function onReady() {
     const shadow = element.attachShadow({ mode: 'open' });
     const shadowRoot = document.createElement('div');
     const clientKey = getClientKey();
+    const className = getClassName();
 
     shadowRoot.id = 'widget-root';
 
-    const component = <WidgetContainer clientKey={clientKey} />;
+    const component = (
+      <WidgetContainer clientKey={clientKey} className={className} />
+    );
 
     shadow.appendChild(shadowRoot);
     injectStyle(shadowRoot);
@@ -48,6 +51,15 @@ function getClientKey() {
   }
 
   return clientKey;
+}
+
+function getClassName() {
+  const script = document.currentScript as HTMLScriptElement;
+  let className = script?.getAttribute('data-class-name');
+  if (!className) {
+    className = '';
+  }
+  return className;
 }
 
 initializeWidget();
