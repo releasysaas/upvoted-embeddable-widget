@@ -145,7 +145,7 @@ pnpm serve:widget
 
    ```html
    <script
-     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.5.0/dist/widget.js"
+     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.5.1/dist/widget.js"
      defer
      data-client-key="019483fc-b33e-7456-a5df-5bfa9ede6429"
      data-class-name="dark"
