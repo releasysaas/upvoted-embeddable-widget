@@ -54,5 +54,6 @@ export type ShowFeature = {
   }>;
   custom_fields?: Record<string, unknown> | null;
   url: string;
+  public_url?: string | null;
   board?: { name?: string; slug?: string } | null;
 };

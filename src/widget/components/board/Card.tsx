@@ -17,11 +17,13 @@ export function Card({
     >
       <div className="flex items-start gap-2">
         {feature.image ? (
-          <img
-            src={feature.image}
-            alt="feature"
-            className="w-12 h-12 rounded object-cover flex-shrink-0"
-          />
+          <div className="w-12 h-12 bg-white rounded overflow-hidden flex-shrink-0">
+            <img
+              src={feature.image}
+              alt="feature"
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
         ) : null}
         <div className="min-w-0">
           <div className="text-sm font-medium text-slate-800 dark:text-white line-clamp-2">
