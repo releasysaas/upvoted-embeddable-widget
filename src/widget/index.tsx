@@ -35,6 +35,8 @@ function onReady() {
     const shadow = hostEl.attachShadow({ mode: 'open' });
     const shadowRoot = document.createElement('div');
     shadowRoot.id = 'widget-root';
+    shadowRoot.style.width = '100%';
+    shadowRoot.style.height = '100%';
 
     let component: JSX.Element;
     if (mode === 'board') {

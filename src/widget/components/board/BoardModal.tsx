@@ -39,7 +39,10 @@ export function BoardModal({ feature, onClose }: { feature: ShowFeature; onClose
                     <div className="text-xs text-slate-500 dark:text-slate-300 mb-1">
                       {c.contributor?.name || c.contributor?.email || 'Anonymous'} · {new Date(c.inserted_at).toLocaleString()}
                     </div>
-                    <div className="whitespace-pre-wrap">{c.message}</div>
+                    <div
+                      className="prose prose-sm dark:prose-invert max-w-none"
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(c.message) }}
+                    />
                   </div>
                 ))}
               </div>

@@ -165,7 +165,7 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
   }
 
   return (
-    <div className={className}>
+    <div className={`${className} h-full`}>
       <BoardKanban
         statuses={sortedStatuses}
         featuresByStatus={featuresByStatus}
