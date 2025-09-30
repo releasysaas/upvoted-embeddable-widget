@@ -6,11 +6,15 @@ export function BoardKanban({
   featuresByStatus,
   hasMoreByStatus,
   onLoadMore,
+  descriptionsById,
+  onCardClick,
 }: {
   statuses: StatusRecord[];
   featuresByStatus: Record<string, IndexFeature[]>;
   hasMoreByStatus: Record<string, boolean>;
   onLoadMore: (statusKey: string) => void | Promise<void>;
+  descriptionsById: Record<string, string | undefined>;
+  onCardClick: (feature: IndexFeature) => void;
 }) {
   const sorted = [...statuses].sort((a, b) => a.order - b.order);
   return (
@@ -23,6 +27,8 @@ export function BoardKanban({
             features={featuresByStatus[s.name.toLowerCase()] || []}
             hasMore={!!hasMoreByStatus[s.name.toLowerCase()]}
             onLoadMore={() => onLoadMore(s.name.toLowerCase())}
+            descriptionsById={descriptionsById}
+            onCardClick={onCardClick}
           />)
         )}
       </div>

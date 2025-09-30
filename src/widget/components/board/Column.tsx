@@ -6,11 +6,15 @@ export function Column({
   features,
   hasMore,
   onLoadMore,
+  descriptionsById,
+  onCardClick,
 }: {
   status: StatusRecord;
   features: IndexFeature[];
   hasMore: boolean;
   onLoadMore: () => void | Promise<void>;
+  descriptionsById: Record<string, string | undefined>;
+  onCardClick: (feature: IndexFeature) => void;
 }) {
   return (
     <div className="flex flex-col h-full flex-1 min-w-[260px] max-w-[380px] bg-gray-50 dark:bg-widget-bg-dark rounded-lg border border-gray-200 dark:border-gray-800">
@@ -22,7 +26,12 @@ export function Column({
       </div>
       <div className="p-3 space-y-3 flex-1 overflow-y-auto min-h-0">
         {features.map((f) => (
-          <Card key={f.id} feature={f} />
+          <Card
+            key={f.id}
+            feature={f}
+            description={descriptionsById[f.id]}
+            onClick={onCardClick}
+          />
         ))}
         {hasMore && (
           <button

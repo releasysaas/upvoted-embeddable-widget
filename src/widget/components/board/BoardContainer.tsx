@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { BoardKanban } from './BoardKanban';
-import { fetchFeaturesByStatus, fetchStatuses } from './api';
-import type { IndexFeature, StatusRecord } from './types';
+import { BoardModal } from './BoardModal';
+import { fetchFeatureDetail, fetchFeaturesByStatus, fetchStatuses } from './api';
+import type { IndexFeature, ShowFeature, StatusRecord } from './types';
+import { stripHtml } from '../../lib/sanitize';
 
 type Props = {
   authToken: string;
@@ -18,6 +20,9 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
   const [totalsByStatus, setTotalsByStatus] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [descriptionsById, setDescriptionsById] = useState<Record<string, string>>({});
+  const [detailCache, setDetailCache] = useState<Record<string, ShowFeature>>({});
+  const [selected, setSelected] = useState<ShowFeature | null>(null);
 
   const sortedStatuses = useMemo(() => {
     return (statuses ?? []).slice().sort((a, b) => a.order - b.order);
@@ -50,6 +55,8 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
               byStatus[statusKey] = featuresResp.records;
               pages[statusKey] = 1;
               totals[statusKey] = featuresResp.total_count ?? featuresResp.records.length;
+              // Prefetch descriptions for initial features in this status
+              await prefetchDescriptions(featuresResp.records);
             } catch {
               // individual status failure shouldn't block others
               byStatus[statusKey] = [];
@@ -95,8 +102,50 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
       }));
       setPagesByStatus((prev) => ({ ...prev, [statusKey]: nextPage }));
       setTotalsByStatus((prev) => ({ ...prev, [statusKey]: resp.total_count ?? (prev[statusKey] ?? 0) }));
+      await prefetchDescriptions(resp.records);
     } catch {
       // ignore load more errors silently to keep UX smooth
+    }
+  }
+
+  async function prefetchDescriptions(features: IndexFeature[]) {
+    // Fetch detail for features that don't have a description cached yet (best-effort, parallel)
+    const missing = features.filter((f) => !descriptionsById[f.id]);
+    if (missing.length === 0) return;
+    await Promise.all(
+      missing.map(async (f) => {
+        try {
+          const detail = await fetchFeatureDetail(authToken, f.id);
+          setDetailCache((prev) => ({ ...prev, [f.id]: detail }));
+          setDescriptionsById((prev) => ({ ...prev, [f.id]: truncateTwoLines(stripHtml(detail.description)) }));
+        } catch {
+          // ignore
+        }
+      }),
+    );
+  }
+
+  function truncateTwoLines(text: string): string {
+    // Approximate two lines with ~140 chars, add ellipsis if longer
+    const limit = 140;
+    if (!text) return '';
+    const t = text.trim();
+    if (t.length <= limit) return t;
+    return t.slice(0, limit - 1) + '…';
+  }
+
+  async function handleCardClick(feature: IndexFeature) {
+    try {
+      const cached = detailCache[feature.id];
+      if (cached) {
+        setSelected(cached);
+        return;
+      }
+      const detail = await fetchFeatureDetail(authToken, feature.id);
+      setDetailCache((prev) => ({ ...prev, [feature.id]: detail }));
+      setSelected(detail);
+    } catch {
+      // ignore error for now; could show toast in future
     }
   }
 
@@ -122,10 +171,15 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
         featuresByStatus={featuresByStatus}
         hasMoreByStatus={hasMoreByStatus}
         onLoadMore={onLoadMore}
+        descriptionsById={descriptionsById}
+        onCardClick={handleCardClick}
       />
       <div className='text-xs text-slate-700 dark:text-white mt-2 text-right'>
         <a href='https://upvoted.io' target='_blank' rel='noreferrer'>Powered by Upvoted</a>
       </div>
+      {selected && (
+        <BoardModal feature={selected} onClose={() => setSelected(null)} />
+      )}
     </div>
   );
 }

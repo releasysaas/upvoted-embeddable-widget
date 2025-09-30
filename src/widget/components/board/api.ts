@@ -1,6 +1,7 @@
 import type {
   FeatureListResponse,
   StatusResponse,
+  ShowFeature,
 } from './types';
 
 const UPVOTED_API_BASE = 'https://upvoted.io/api/boards';
@@ -14,6 +15,17 @@ export async function fetchStatuses(token: string): Promise<StatusResponse> {
   });
   if (!res.ok) throw new Error(`Statuses request failed: ${res.status}`);
   return (await res.json()) as StatusResponse;
+}
+
+export async function fetchFeatureDetail(token: string, id: string): Promise<ShowFeature> {
+  const res = await fetch(`${UPVOTED_API_BASE}/features/${encodeURIComponent(id)}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'GET',
+  });
+  if (!res.ok) throw new Error(`Feature detail request failed: ${res.status}`);
+  return (await res.json()) as ShowFeature;
 }
 
 export async function fetchFeaturesByStatus(
