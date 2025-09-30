@@ -3,6 +3,16 @@ import { WidgetContainer } from './components/widget-container';
 import './styles/style.css';
 import { BoardContainer } from './components/board/BoardContainer';
 
+function getStatusesFilter(script: HTMLScriptElement | null): string[] | undefined {
+  const raw = script?.getAttribute('data-statuses');
+  if (!raw) return undefined;
+  const list = raw
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => s.length > 0);
+  return list.length > 0 ? list : undefined;
+}
+
 function initializeWidget() {
   if (document.readyState !== 'loading') {
     onReady();
@@ -18,6 +28,8 @@ function onReady() {
     const clientKey = getClientKey(script);
     const className = getClassName(script);
     const target = getEmbedTarget(script);
+    const desiredHeight = getEmbedHeight(script); // e.g., "800px" or "70vh"
+    const statusesFilter = getStatusesFilter(script);
 
     const hostEl = document.createElement('div');
     const shadow = hostEl.attachShadow({ mode: 'open' });
@@ -26,7 +38,13 @@ function onReady() {
 
     let component: JSX.Element;
     if (mode === 'board') {
-      component = <BoardContainer authToken={clientKey} className={className} />;
+      component = (
+        <BoardContainer
+          authToken={clientKey}
+          className={className}
+          statusesFilter={statusesFilter}
+        />
+      );
     } else {
       component = <WidgetContainer clientKey={clientKey} className={className} />;
     }
@@ -38,6 +56,16 @@ function onReady() {
     root.render(component);
 
     if (target) {
+      // Make the host fill the target container to allow 100% height usage inside
+      hostEl.style.display = 'block';
+      hostEl.style.width = '100%';
+      hostEl.style.height = '100%';
+      // If target has no explicit height, apply desiredHeight (default if not provided)
+      const computed = window.getComputedStyle(target);
+      const hasExplicitHeight = target.style.height || computed.height;
+      if (!hasExplicitHeight || computed.height === '0px') {
+        target.style.height = desiredHeight;
+      }
       target.appendChild(hostEl);
     } else {
       document.body.appendChild(hostEl);
@@ -112,6 +140,12 @@ function getEmbedTarget(script: HTMLScriptElement | null): HTMLElement | null {
   } catch {
     return null;
   }
+}
+
+function getEmbedHeight(script: HTMLScriptElement | null): string {
+  const h = script?.getAttribute('data-height')?.trim();
+  // Accept values like "800px", "70vh", "100%"; default to 800px
+  return h && h.length > 0 ? h : '800px';
 }
 
 initializeWidget();
