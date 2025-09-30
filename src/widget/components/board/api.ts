@@ -48,3 +48,19 @@ export async function fetchFeaturesByStatus(
   if (!res.ok) throw new Error(`Features request failed: ${res.status}`);
   return (await res.json()) as FeatureListResponse;
 }
+
+export async function createComment(
+  token: string,
+  featureId: string,
+  body: { message: string; contributor?: { name?: string; email?: string } },
+): Promise<void> {
+  const res = await fetch(`${UPVOTED_API_BASE}/features/${encodeURIComponent(featureId)}/comments`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`Create comment failed: ${res.status}`);
+}

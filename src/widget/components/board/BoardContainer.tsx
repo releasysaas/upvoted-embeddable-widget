@@ -9,11 +9,12 @@ type Props = {
   authToken: string;
   className: string;
   statusesFilter?: string[]; // list of lowercased status names to include; if undefined -> include all
+  allowFeatureComment?: boolean;
 };
 
 const PER_PAGE = 10;
 
-export function BoardContainer({ authToken, className, statusesFilter }: Props) {
+export function BoardContainer({ authToken, className, statusesFilter, allowFeatureComment = false }: Props) {
   const [statuses, setStatuses] = useState<StatusRecord[] | null>(null);
   const [featuresByStatus, setFeaturesByStatus] = useState<Record<string, IndexFeature[]>>({});
   const [pagesByStatus, setPagesByStatus] = useState<Record<string, number>>({});
@@ -193,7 +194,7 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
         <a href='https://upvoted.io' target='_blank' rel='noreferrer'>Powered by Upvoted</a>
       </div>
       {selected && (
-        <BoardModal feature={selected} onClose={() => setSelected(null)} />
+        <BoardModal feature={selected} onClose={() => setSelected(null)} allowFeatureComment={allowFeatureComment} authToken={authToken} />
       )}
     </div>
   );

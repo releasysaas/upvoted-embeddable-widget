@@ -25,7 +25,7 @@ export function Card({
             />
           </div>
         ) : null}
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="text-sm font-medium text-slate-800 dark:text-white line-clamp-2">
             {feature.title}
           </div>
@@ -34,10 +34,10 @@ export function Card({
               {description}
             </div>
           ) : null}
-          <div className="mt-1 text-xs text-slate-500 dark:text-slate-300">
-            {feature.public_upvotes_count + feature.private_upvotes_count} votes · {feature.comments_count} comments
-          </div>
         </div>
+      </div>
+      <div className="mt-2 text-xs text-slate-500 dark:text-slate-300">
+        {feature.public_upvotes_count + feature.private_upvotes_count} votes · {feature.comments_count} comments
       </div>
     </button>
   );

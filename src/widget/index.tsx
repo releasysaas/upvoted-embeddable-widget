@@ -30,6 +30,8 @@ function onReady() {
     const target = getEmbedTarget(script);
     const desiredHeight = getEmbedHeight(script); // e.g., "800px" or "70vh"
     const statusesFilter = getStatusesFilter(script);
+    const allowFeatureRequest = getBooleanAttr(script, 'data-allow-feature-request');
+    const allowFeatureComment = getBooleanAttr(script, 'data-allow-feature-comment');
 
     const hostEl = document.createElement('div');
     const shadow = hostEl.attachShadow({ mode: 'open' });
@@ -40,13 +42,26 @@ function onReady() {
 
     let component: JSX.Element;
     if (mode === 'board') {
-      component = (
+      const boardEl = (
         <BoardContainer
           authToken={clientKey}
           className={className}
           statusesFilter={statusesFilter}
+          allowFeatureComment={allowFeatureComment}
         />
       );
+      if (allowFeatureRequest) {
+        component = (
+          <div className={`${className} h-full flex flex-col`}>
+            <div className="flex-1 min-h-0">{boardEl}</div>
+            <div className="mt-4">
+              <WidgetContainer clientKey={clientKey} className={className} />
+            </div>
+          </div>
+        );
+      } else {
+        component = boardEl;
+      }
     } else {
       component = <WidgetContainer clientKey={clientKey} className={className} />;
     }
@@ -148,6 +163,12 @@ function getEmbedHeight(script: HTMLScriptElement | null): string {
   const h = script?.getAttribute('data-height')?.trim();
   // Accept values like "800px", "70vh", "100%"; default to 800px
   return h && h.length > 0 ? h : '800px';
+}
+
+function getBooleanAttr(script: HTMLScriptElement | null, name: string): boolean {
+  const v = script?.getAttribute(name);
+  if (!v) return false;
+  return v.toLowerCase() === 'true' || v === '';
 }
 
 initializeWidget();

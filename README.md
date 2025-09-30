@@ -66,6 +66,8 @@ Supported attributes in board mode:
 - `data-class-name` (optional): wrapper class, e.g. `dark`.
 - `data-height` (optional): height to apply if the target has no explicit height. Defaults to `800px`.
 - `data-statuses` (optional): comma-separated list of status names to include (lowercased). If empty or omitted, loads all statuses.
+- `data-allow-feature-request` (optional): when `true`, renders the standard request widget below the board while preserving the board layout.
+- `data-allow-feature-comment` (optional): when `true`, shows a comment form inside the feature modal. Fields required: name, email, comment.
 
 What it does:
 
@@ -73,6 +75,21 @@ What it does:
 - Loads 5 features per status via `GET https://upvoted.io/api/boards/features?status=<status>&page=1&per_page=5`. Each column has a "Load more" button.
 - Cards show title, votes/comments, image, and a two-line description preview.
 - Clicking a card opens an in-widget modal that fetches `GET https://upvoted.io/api/boards/features/:id` and renders sanitized HTML description and HTML comments.
+
+Example with the new attributes:
+
+```html
+<div id="upvoted-board-here"></div>
+<script
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.5.1/dist/widget.js"
+  defer
+  data-mode="board"
+  data-embed-target="#upvoted-board-here"
+  data-client-key="YOUR_API_TOKEN"
+  data-allow-feature-request="true"
+  data-allow-feature-comment="true"
+></script>
+```
 
 
 ## License

@@ -165,6 +165,8 @@ Example setup:
 - `data-client-key`: API token, sent as `Authorization: Bearer <token>` to `/api/boards/*` routes.
 - `data-class-name`: optional wrapper class, e.g. `dark`.
 - `data-statuses`: optional comma-separated status names to include (lowercased). If empty or omitted, loads all statuses.
+- `data-allow-feature-request` (optional): when `true`, also renders the standard request widget below the board while preserving board height.
+- `data-allow-feature-comment` (optional): when `true`, enables a comment form inside the feature modal (name, email, and comment are required).
 
 Behavior in board mode (local):
 
