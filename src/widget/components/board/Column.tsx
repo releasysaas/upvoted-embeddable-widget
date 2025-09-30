@@ -9,8 +9,8 @@ export function Column({
   features: IndexFeature[];
 }) {
   return (
-    <div className="flex-1 min-w-[260px] max-w-[380px] bg-gray-50 dark:bg-widget-bg-dark rounded-lg border-1 border-gray-200 dark:border-gray-800">
-      <div className="px-3 py-2 border-b-1 border-gray-200 dark:border-gray-800 flex items-center justify-between">
+    <div className="flex-1 min-w-[260px] max-w-[380px] bg-gray-50 dark:bg-widget-bg-dark rounded-lg border border-gray-200 dark:border-gray-800">
+      <div className="px-3 py-2 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
         <div className="text-sm font-semibold text-slate-700 dark:text-white">
           {status.name}
         </div>
