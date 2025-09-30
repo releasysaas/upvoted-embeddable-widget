@@ -81,7 +81,7 @@ Example with the new attributes:
 ```html
 <div id="upvoted-board-here"></div>
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.5.1/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.0/dist/widget.js"
   defer
   data-mode="board"
   data-embed-target="#upvoted-board-here"
