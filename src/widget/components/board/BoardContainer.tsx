@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
+import { stripHtml } from '../../lib/sanitize';
 import { BoardKanban } from './BoardKanban';
 import { BoardModal } from './BoardModal';
 import { fetchFeatureDetail, fetchFeaturesByStatus, fetchStatuses } from './api';
 import type { IndexFeature, ShowFeature, StatusRecord } from './types';
-import { stripHtml } from '../../lib/sanitize';
 
 type Props = {
   authToken: string;
@@ -11,7 +11,7 @@ type Props = {
   statusesFilter?: string[]; // list of lowercased status names to include; if undefined -> include all
 };
 
-const PER_PAGE = 5;
+const PER_PAGE = 10;
 
 export function BoardContainer({ authToken, className, statusesFilter }: Props) {
   const [statuses, setStatuses] = useState<StatusRecord[] | null>(null);
@@ -91,6 +91,20 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
     return result;
   }, [featuresByStatus, totalsByStatus]);
 
+  const remainingByStatus = useMemo(() => {
+    const result: Record<string, number> = {};
+    const keys = new Set<string>([
+      ...Object.keys(featuresByStatus),
+      ...Object.keys(totalsByStatus),
+    ]);
+    for (const key of keys) {
+      const loaded = featuresByStatus[key]?.length ?? 0;
+      const total = totalsByStatus[key] ?? 0;
+      result[key] = Math.max(total - loaded, 0);
+    }
+    return result;
+  }, [featuresByStatus, totalsByStatus]);
+
   async function onLoadMore(statusKey: string) {
     const currentPage = pagesByStatus[statusKey] ?? 0;
     const nextPage = currentPage + 1;
@@ -98,7 +112,7 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
       const resp = await fetchFeaturesByStatus(authToken, statusKey, nextPage, PER_PAGE);
       setFeaturesByStatus((prev) => ({
         ...prev,
-        [statusKey]: [ ...(prev[statusKey] ?? []), ...resp.records ],
+        [statusKey]: [...(prev[statusKey] ?? []), ...resp.records],
       }));
       setPagesByStatus((prev) => ({ ...prev, [statusKey]: nextPage }));
       setTotalsByStatus((prev) => ({ ...prev, [statusKey]: resp.total_count ?? (prev[statusKey] ?? 0) }));
@@ -173,6 +187,7 @@ export function BoardContainer({ authToken, className, statusesFilter }: Props) 
         onLoadMore={onLoadMore}
         descriptionsById={descriptionsById}
         onCardClick={handleCardClick}
+        remainingByStatus={remainingByStatus}
       />
       <div className='text-xs text-slate-700 dark:text-white mt-2 text-right'>
         <a href='https://upvoted.io' target='_blank' rel='noreferrer'>Powered by Upvoted</a>

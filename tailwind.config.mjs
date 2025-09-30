@@ -1,9 +1,13 @@
+import colors from 'tailwindcss/colors';
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
+        // Match Upvoted project's theme mappings
+        primary: colors.amber,
+        gray: colors.slate,
         widget: {
           bg: {
             light: '#ffffff', // Light mode background

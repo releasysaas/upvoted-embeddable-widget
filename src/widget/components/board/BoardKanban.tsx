@@ -8,6 +8,7 @@ export function BoardKanban({
   onLoadMore,
   descriptionsById,
   onCardClick,
+  remainingByStatus,
 }: {
   statuses: StatusRecord[];
   featuresByStatus: Record<string, IndexFeature[]>;
@@ -15,6 +16,7 @@ export function BoardKanban({
   onLoadMore: (statusKey: string) => void | Promise<void>;
   descriptionsById: Record<string, string | undefined>;
   onCardClick: (feature: IndexFeature) => void;
+  remainingByStatus: Record<string, number>;
 }) {
   const sorted = [...statuses].sort((a, b) => a.order - b.order);
   return (
@@ -29,6 +31,7 @@ export function BoardKanban({
             onLoadMore={() => onLoadMore(s.name.toLowerCase())}
             descriptionsById={descriptionsById}
             onCardClick={onCardClick}
+            remainingCount={remainingByStatus[s.name.toLowerCase()] ?? 0}
           />)
         )}
       </div>
