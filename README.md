@@ -15,7 +15,7 @@ This widget lets you inlcude the Upvoted feature requests in any website. [Upvot
 
    ```html
    <script
-     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.5.1/dist/widget.js"
+     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.0/dist/widget.js"
      defer
      data-client-key="019483fc-b33e-7456-a5df-5bfa9ede6429"
      data-class-name="dark"
@@ -34,7 +34,7 @@ Minimal example (inserts after the script tag):
 
 ```html
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.5.1/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.0/dist/widget.js"
   defer
   data-mode="board"
   data-client-key="YOUR_API_TOKEN"
@@ -47,7 +47,7 @@ Mount into a specific element:
 ```html
 <div id="upvoted-board-here"></div>
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@1.5.1/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.0/dist/widget.js"
   defer
   data-mode="board"
   data-embed-target="#upvoted-board-here"
@@ -91,6 +91,23 @@ Example with the new attributes:
 ></script>
 ```
 
+
+## Changelog
+
+### 2.0.0
+
+- **Board embed UX**: column headers styled to match Upvoted; primary color aligned (amber).
+- **Cards**: transparent thumbnails on white background; top-aligned crop; counters layout unified.
+- **Modal**:
+  - Public/private vote split and total.
+  - Image shows from top with white background.
+  - Contributor name shown when available.
+  - Improved styling (section borders, header accent).
+  - Conditional public link (only when `public_url` exists).
+- **New attributes**:
+  - `data-allow-feature-request`: render request widget below the board without breaking board height.
+  - `data-allow-feature-comment`: show a required comment form (name, email, comment) inside the modal.
+- **Docs**: README and CONTRIBUTE updated; CDN version set to 2.0.0.
 
 ## License
 
