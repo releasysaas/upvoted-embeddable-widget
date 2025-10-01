@@ -17,7 +17,7 @@ This widget lets you inlcude the Upvoted feature requests in any website. [Upvot
    <script
      src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.0/dist/widget.js"
      defer
-     data-client-key="019483fc-b33e-7456-a5df-5bfa9ede6429"
+     data-client-key="YOUR_API_TOKEN"
      data-class-name="dark"
    ></script>
    ```
@@ -28,7 +28,7 @@ This widget lets you inlcude the Upvoted feature requests in any website. [Upvot
 
 ### Embed the full board (new)
 
-You can also embed the full board using the same script by switching the mode to `board`. This renders an inline Kanban similar to `UpvotedWeb.PublicOrgDashboardLive` using only the API Token endpoints (`/api/boards/*`).
+You can also embed the full board using the same script by switching the mode to `board`.
 
 Minimal example (inserts after the script tag):
 
