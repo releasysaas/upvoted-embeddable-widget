@@ -68,6 +68,7 @@ Supported attributes in board mode:
 - `data-statuses` (optional): comma-separated list of status names to include (lowercased). If empty or omitted, loads all statuses.
 - `data-allow-feature-request` (optional): when `true`, renders the standard request widget below the board while preserving the board layout.
 - `data-allow-feature-comment` (optional): when `true`, shows a comment form inside the feature modal. Fields required: name, email, comment.
+- `data-allow-feature-upvote` (optional): when `true`, shows an Upvote action in the feature modal. Upvoting requires a contributor object with both name and email.
 
 What it does:
 
@@ -88,6 +89,7 @@ Example with the new attributes:
   data-client-key="YOUR_API_TOKEN"
   data-allow-feature-request="true"
   data-allow-feature-comment="true"
+  data-allow-feature-upvote="true"
 ></script>
 ```
 
@@ -107,6 +109,7 @@ Example with the new attributes:
 - **New attributes**:
   - `data-allow-feature-request`: render request widget below the board without breaking board height.
   - `data-allow-feature-comment`: show a required comment form (name, email, comment) inside the modal.
+  - `data-allow-feature-upvote`: enable upvoting inside the modal. Requires contributor (name and email) to be provided.
 - **Docs**: README and CONTRIBUTE updated; CDN version set to 2.0.0.
 
 ## License

@@ -32,6 +32,7 @@ function onReady() {
     const statusesFilter = getStatusesFilter(script);
     const allowFeatureRequest = getBooleanAttr(script, 'data-allow-feature-request');
     const allowFeatureComment = getBooleanAttr(script, 'data-allow-feature-comment');
+    const allowFeatureUpvote = getBooleanAttr(script, 'data-allow-feature-upvote');
 
     const hostEl = document.createElement('div');
     const shadow = hostEl.attachShadow({ mode: 'open' });
@@ -48,6 +49,7 @@ function onReady() {
           className={className}
           statusesFilter={statusesFilter}
           allowFeatureComment={allowFeatureComment}
+          allowFeatureUpvote={allowFeatureUpvote}
         />
       );
       if (allowFeatureRequest) {

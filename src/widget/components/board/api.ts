@@ -1,8 +1,4 @@
-import type {
-  FeatureListResponse,
-  StatusResponse,
-  ShowFeature,
-} from './types';
+import type { FeatureListResponse, ShowFeature, StatusResponse } from './types';
 
 const UPVOTED_API_BASE = 'https://upvoted.io/api/boards';
 
@@ -17,13 +13,19 @@ export async function fetchStatuses(token: string): Promise<StatusResponse> {
   return (await res.json()) as StatusResponse;
 }
 
-export async function fetchFeatureDetail(token: string, id: string): Promise<ShowFeature> {
-  const res = await fetch(`${UPVOTED_API_BASE}/features/${encodeURIComponent(id)}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export async function fetchFeatureDetail(
+  token: string,
+  id: string,
+): Promise<ShowFeature> {
+  const res = await fetch(
+    `${UPVOTED_API_BASE}/features/${encodeURIComponent(id)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'GET',
     },
-    method: 'GET',
-  });
+  );
   if (!res.ok) throw new Error(`Feature detail request failed: ${res.status}`);
   return (await res.json()) as ShowFeature;
 }
@@ -52,15 +54,37 @@ export async function fetchFeaturesByStatus(
 export async function createComment(
   token: string,
   featureId: string,
-  body: { message: string; contributor?: { name?: string; email?: string } },
+  body: { message: string; contributor: { name: string; email: string } },
 ): Promise<void> {
-  const res = await fetch(`${UPVOTED_API_BASE}/features/${encodeURIComponent(featureId)}/comments`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+  const res = await fetch(
+    `${UPVOTED_API_BASE}/features/${encodeURIComponent(featureId)}/comments`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(body),
     },
-    method: 'POST',
-    body: JSON.stringify(body),
-  });
+  );
   if (!res.ok) throw new Error(`Create comment failed: ${res.status}`);
+}
+
+export async function upvoteFeature(
+  token: string,
+  featureId: string,
+  body: { contributor: { name: string; email: string } },
+): Promise<void> {
+  const res = await fetch(
+    `${UPVOTED_API_BASE}/features/${encodeURIComponent(featureId)}/upvote`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(body),
+    },
+  );
+  if (!res.ok) throw new Error(`Upvote failed: ${res.status}`);
 }

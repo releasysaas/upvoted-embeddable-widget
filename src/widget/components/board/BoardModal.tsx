@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { sanitizeHtml } from '../../lib/sanitize';
-import { createComment } from './api';
+import { createComment, upvoteFeature } from './api';
 import type { ShowFeature } from './types';
 
-export function BoardModal({ feature, onClose, allowFeatureComment = false, authToken }: { feature: ShowFeature; onClose: () => void; allowFeatureComment?: boolean; authToken?: string }) {
+export function BoardModal({ feature, onClose, allowFeatureComment = false, allowFeatureUpvote = false, authToken }: { feature: ShowFeature; onClose: () => void; allowFeatureComment?: boolean; allowFeatureUpvote?: boolean; authToken?: string }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitOk, setSubmitOk] = useState(false);
+  const [upvoting, setUpvoting] = useState(false);
+  const [didUpvote, setDidUpvote] = useState(false);
+  const [publicVotes, setPublicVotes] = useState(feature.public_upvotes_count);
+  const [privateVotes] = useState(feature.private_upvotes_count);
+  const [activeTab, setActiveTab] = useState<'upvote' | 'comment'>(() => {
+    if (allowFeatureUpvote) return 'upvote';
+    return 'comment';
+  });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,6 +44,27 @@ export function BoardModal({ feature, onClose, allowFeatureComment = false, auth
       setSubmitError('Failed to submit comment');
     } finally {
       setSubmitting(false);
+    }
+  }
+  async function handleUpvote() {
+    if (!allowFeatureUpvote) return;
+    if (!authToken) return;
+    if (didUpvote) return;
+    if (!name.trim() || !email.trim()) {
+      setSubmitError('Name and email are required to upvote');
+      return;
+    }
+    setUpvoting(true);
+    try {
+      await upvoteFeature(authToken, feature.id, { contributor: { name: name.trim(), email: email.trim() } });
+      setPublicVotes((v) => v + 1);
+      setDidUpvote(true);
+      setName('');
+      setEmail('');
+    } catch {
+      // swallow; optionally show a toast in the future
+    } finally {
+      setUpvoting(false);
     }
   }
   return (
@@ -73,61 +102,123 @@ export function BoardModal({ feature, onClose, allowFeatureComment = false, auth
                   Contributor: {feature.contributor.name}
                 </span>
               ) : null}
-              <span className="inline-flex items-center gap-1">
+              <span className="inline-flex items-center gap-2 flex-wrap">
                 Votes:
                 <span className="inline-flex items-center gap-1 px-1 py-0.5 rounded bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">
-                  Public {feature.public_upvotes_count}
+                  Public {publicVotes}
                 </span>
                 <span className="inline-flex items-center gap-1 px-1 py-0.5 rounded bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                  Private {feature.private_upvotes_count}
+                  Private {privateVotes}
                 </span>
-                <span className="opacity-70">(Total {feature.public_upvotes_count + feature.private_upvotes_count})</span>
+                <span className="opacity-70">(Total {publicVotes + privateVotes})</span>
               </span>
               <span>Comments: {feature.comments_count}</span>
             </div>
           </section>
 
-          {allowFeatureComment && (
-            <section className="border border-gray-200 dark:border-gray-800 rounded-md p-3 bg-white dark:bg-transparent">
-              <div className="text-sm font-semibold mb-2">Add a comment</div>
-              <form onSubmit={handleSubmit} className="space-y-2">
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    className="flex-1 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="flex-1 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <textarea
-                  placeholder="Your comment"
-                  className="w-full min-h-20 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                />
-                <div className="flex items-center justify-between">
-                  <div className="text-xs text-danger-600 dark:text-red-300">{submitError}</div>
-                  {submitOk && <div className="text-xs text-emerald-600 dark:text-emerald-300">Comment submitted</div>}
+          {(allowFeatureComment || allowFeatureUpvote) && (
+            <section className="border border-gray-200 dark:border-gray-800 rounded-md">
+              <div className="flex border-b border-gray-200 dark:border-gray-800">
+                {allowFeatureUpvote && (
                   <button
-                    type="submit"
-                    disabled={submitting}
-                    className="px-3 py-1 rounded border border-primary-300 text-primary-700 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10"
+                    type="button"
+                    onClick={() => { setActiveTab('upvote'); setSubmitError(null); }}
+                    className={`px-3 py-2 text-sm ${activeTab === 'upvote' ? 'border-b-2 border-primary-500 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}
                   >
-                    {submitting ? 'Submitting…' : 'Submit comment'}
+                    Upvote
                   </button>
+                )}
+                {allowFeatureComment && (
+                  <button
+                    type="button"
+                    onClick={() => { setActiveTab('comment'); setSubmitError(null); }}
+                    className={`px-3 py-2 text-sm ${activeTab === 'comment' ? 'border-b-2 border-primary-500 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}
+                  >
+                    Comment
+                  </button>
+                )}
+              </div>
+
+              {/* Upvote tab content */}
+              {allowFeatureUpvote && activeTab === 'upvote' && (
+                <div className="p-3 bg-white dark:bg-transparent space-y-2">
+                  <div className="text-sm font-semibold">Your info</div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      className="flex-1 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      className="flex-1 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  {submitError && <div className="text-xs text-danger-600 dark:text-red-300">{submitError}</div>}
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      onClick={handleUpvote}
+                      disabled={didUpvote || upvoting}
+                      className="inline-flex items-center gap-1 px-3 py-1 rounded border border-primary-300 text-primary-700 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10"
+                    >
+                      {didUpvote ? 'Upvoted' : upvoting ? 'Upvoting…' : 'Upvote'}
+                    </button>
+                  </div>
                 </div>
-              </form>
+              )}
+
+              {/* Comment tab content */}
+              {allowFeatureComment && activeTab === 'comment' && (
+                <div className="p-3 bg-white dark:bg-transparent">
+                  <div className="text-sm font-semibold mb-2">Add a comment</div>
+                  <form onSubmit={handleSubmit} className="space-y-2">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        className="flex-1 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        className="flex-1 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <textarea
+                      placeholder="Your comment"
+                      className="w-full min-h-20 rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-widget-bg-dark px-2 py-1 text-sm"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      required
+                    />
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs text-danger-600 dark:text-red-300">{submitError}</div>
+                      {submitOk && <div className="text-xs text-emerald-600 dark:text-emerald-300">Comment submitted</div>}
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="px-3 py-1 rounded border border-primary-300 text-primary-700 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10"
+                      >
+                        {submitting ? 'Submitting…' : 'Submit comment'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
             </section>
           )}
 
