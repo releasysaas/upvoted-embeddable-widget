@@ -167,7 +167,7 @@ export function BoardModal({ feature, onClose, allowFeatureComment = false, allo
                       type="button"
                       onClick={handleUpvote}
                       disabled={didUpvote || upvoting}
-                      className="inline-flex items-center gap-1 px-3 py-1 rounded border border-primary-300 text-primary-700 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10"
+                      className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded border border-primary-300 text-primary-700 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10"
                     >
                       {didUpvote ? 'Upvoted' : upvoting ? 'Upvoting…' : 'Upvote'}
                     </button>
@@ -211,7 +211,7 @@ export function BoardModal({ feature, onClose, allowFeatureComment = false, allo
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="px-3 py-1 rounded border border-primary-300 text-primary-700 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10"
+                        className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded border border-primary-300 text-primary-700 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10"
                       >
                         {submitting ? 'Submitting…' : 'Submit comment'}
                       </button>
@@ -243,7 +243,7 @@ export function BoardModal({ feature, onClose, allowFeatureComment = false, allo
 
           {feature.public_url ? (
             <div className="text-right text-xs">
-              <a href={feature.public_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded border border-primary-300 text-primary-700 hover:bg-primary-50 dark:border-amber-400/40 dark:text-amber-300 dark:hover:bg-amber-400/10">
+              <a href={feature.public_url} target="_blank" rel="noreferrer" className="underline">
                 Open in Upvoted
               </a>
             </div>
