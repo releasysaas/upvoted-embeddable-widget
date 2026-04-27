@@ -5,6 +5,7 @@ interface WidgetContextType {
   setIsOpen: (isOpen: boolean) => void;
   clientKey: string;
   className: string;
+  hideTrigger: boolean;
 }
 
 export const WidgetContext = createContext<WidgetContextType>({
@@ -12,4 +13,5 @@ export const WidgetContext = createContext<WidgetContextType>({
   setIsOpen: () => undefined,
   clientKey: '',
   className: '',
+  hideTrigger: false,
 });

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Board mode — Upvoted</title>
+    <style>
+      body {
+        background-color: #dedede;
+        font-family: system-ui, sans-serif;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 24px;
+        color: #222;
+      }
+      a.back {
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <p><a class="back" href="./index.html">← back</a></p>
+    <h1>Board mode</h1>
+    <p>The Kanban board renders inline inside the target container below.</p>
+
+    <div id="upvoted-board-here"></div>
+
+    <script
+      src="http://127.0.0.1:3334/widget.js"
+      defer
+      data-mode="board"
+      data-height="900px"
+      data-embed-target="#upvoted-board-here"
+      data-client-key="XXXX"
+      data-class-name="dark"
+      data-statuses=""
+      data-allow-feature-request="true"
+      data-allow-feature-comment="true"
+      data-allow-feature-upvote="true"
+    ></script>
+  </body>
+</html>

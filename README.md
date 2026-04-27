@@ -15,7 +15,7 @@ This widget lets you inlcude the Upvoted feature requests in any website. [Upvot
 
    ```html
    <script
-     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.1/dist/widget.js"
+     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
      defer
      data-client-key="YOUR_API_TOKEN"
      data-class-name="dark"
@@ -34,7 +34,7 @@ Minimal example (inserts after the script tag):
 
 ```html
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.1/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
   defer
   data-mode="board"
   data-client-key="YOUR_API_TOKEN"
@@ -47,7 +47,7 @@ Mount into a specific element:
 ```html
 <div id="upvoted-board-here"></div>
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.1/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
   defer
   data-mode="board"
   data-embed-target="#upvoted-board-here"
@@ -82,7 +82,7 @@ Example with the new attributes:
 ```html
 <div id="upvoted-board-here"></div>
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.0.1/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
   defer
   data-mode="board"
   data-embed-target="#upvoted-board-here"
@@ -94,7 +94,49 @@ Example with the new attributes:
 ```
 
 
+### Open the widget from your own button or link (new)
+
+Use `data-mode="custom"` to suppress the default floating button and bind the
+modal to **your own** host-page element instead. Useful when you want the
+"Send feedback" trigger to look like part of your site (a styled button, a
+link in a menu, etc.).
+
+```html
+<button id="open-feedback-btn" type="button">Send us feedback</button>
+
+<script
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
+  defer
+  data-mode="custom"
+  data-trigger-id="open-feedback-btn"
+  data-client-key="YOUR_API_TOKEN"
+  data-class-name="dark"
+></script>
+```
+
+Supported attributes in custom mode:
+
+- `data-mode`: `custom` to enable host-page trigger binding.
+- `data-trigger-id` (required): the `id` of the element on your page that
+  should open the modal when clicked. If missing or not found, the widget
+  logs a warning and renders nothing.
+- `data-client-key`, `data-class-name`: same as widget mode.
+
+Notes:
+
+- No floating button is rendered. The widget mounts a hidden host on
+  `document.body` and only renders the modal when the trigger is clicked.
+- `data-embed-target` is ignored in custom mode (the modal is fixed-position
+  and floats over the page).
+
 ## Changelog
+
+### 2.1.0
+
+- **New mode**: `data-mode="custom"` lets the host page open the feature-request
+  modal from its own button, link, or any clickable element via
+  `data-trigger-id`. The default FAB is suppressed so the trigger matches the
+  host site's styling.
 
 ### 2.0.1
 

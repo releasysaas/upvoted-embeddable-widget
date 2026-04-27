@@ -2,36 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Widget Test Page</title>
+    <title>Widget Test Pages</title>
     <style>
       body {
-        background-color: #dedede; /* Using hex color */
+        background-color: #dedede;
+        font-family: system-ui, sans-serif;
+        max-width: 720px;
+        margin: 40px auto;
+        padding: 0 24px;
+        color: #222;
       }
+      h1 { margin-bottom: 8px; }
+      ul { padding: 0; list-style: none; }
+      li { margin: 12px 0; }
+      a {
+        display: inline-block;
+        padding: 12px 16px;
+        background: #fff;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #222;
+      }
+      a:hover { background: #f5f5f5; }
+      code { background: #eaeaea; padding: 2px 6px; border-radius: 3px; }
     </style>
   </head>
   <body>
-    <h1>My awesome website</h1>
-    <p>This page tests the widget integration.</p>
-
-    <!-- <script
-      async
-      src="http://127.0.0.1:3334/widget.js"
-      data-client-key="xxx"
-      data-class-name="dark"
-    ></script> -->
-
-    <div id="upvoted-board-here"></div>
-    <script
-      src="http://127.0.0.1:3334/widget.js"
-      defer
-      data-mode="board"
-      data-height="900px"
-      data-embed-target="#upvoted-board-here"
-      data-client-key="xxx"
-      data-class-name="dark"
-      data-statuses=""
-      data-allow-feature-request="true"
-      data-allow-feature-comment="true"
-    ></script>
+    <h1>Upvoted widget — test pages</h1>
+    <p>Pick a demo to verify a specific <code>data-mode</code>.</p>
+    <ul>
+      <li><a href="./widget.html">widget mode</a> — default FAB in the bottom-right</li>
+      <li><a href="./board.html">board mode</a> — inline Kanban</li>
+      <li><a href="./custom.html">custom mode</a> — open from a host-page trigger</li>
+    </ul>
   </body>
 </html>

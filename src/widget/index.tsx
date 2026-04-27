@@ -27,12 +27,13 @@ function onReady() {
     const mode = getMode(script);
     const clientKey = getClientKey(script);
     const className = getClassName(script);
-    const target = getEmbedTarget(script);
+    const target = mode === 'custom' ? null : getEmbedTarget(script);
     const desiredHeight = getEmbedHeight(script); // e.g., "800px" or "70vh"
     const statusesFilter = getStatusesFilter(script);
     const allowFeatureRequest = getBooleanAttr(script, 'data-allow-feature-request');
     const allowFeatureComment = getBooleanAttr(script, 'data-allow-feature-comment');
     const allowFeatureUpvote = getBooleanAttr(script, 'data-allow-feature-upvote');
+    const triggerId = getTriggerId(script);
 
     const hostEl = document.createElement('div');
     const shadow = hostEl.attachShadow({ mode: 'open' });
@@ -64,6 +65,17 @@ function onReady() {
       } else {
         component = boardEl;
       }
+    } else if (mode === 'custom') {
+      if (!triggerId) {
+        console.warn('Upvoted widget: data-mode="custom" requires data-trigger-id');
+      }
+      component = (
+        <WidgetContainer
+          clientKey={clientKey}
+          className={className}
+          triggerId={triggerId}
+        />
+      );
     } else {
       component = <WidgetContainer clientKey={clientKey} className={className} />;
     }
@@ -144,9 +156,16 @@ function getClassName(script: HTMLScriptElement | null) {
   return className;
 }
 
-function getMode(script: HTMLScriptElement | null) {
+function getMode(script: HTMLScriptElement | null): 'widget' | 'board' | 'custom' {
   const mode = (script?.getAttribute('data-mode') || 'widget').toLowerCase();
-  return mode === 'board' ? 'board' : 'widget';
+  if (mode === 'board') return 'board';
+  if (mode === 'custom') return 'custom';
+  return 'widget';
+}
+
+function getTriggerId(script: HTMLScriptElement | null): string | null {
+  const id = script?.getAttribute('data-trigger-id')?.trim();
+  return id && id.length > 0 ? id : null;
 }
 
 function getEmbedTarget(script: HTMLScriptElement | null): HTMLElement | null {

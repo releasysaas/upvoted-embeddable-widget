@@ -3,25 +3,27 @@ import { WidgetContext } from '../lib/context';
 import { X } from 'lucide-react';
 import FeatureRequestForm from './feature-request-form';
 export function Widget() {
-  const { isOpen, setIsOpen, clientKey, className } = useContext(WidgetContext);
+  const { isOpen, setIsOpen, clientKey, className, hideTrigger } = useContext(WidgetContext);
 
   return (
     <>
       <div className={className}>
         {!isOpen ? (
-          <button
-            onClick={() => setIsOpen(true)}
-            className='fixed bottom-0 right-0 flex items-center gap-2 m-6 px-1 py-1
-                       bg-widget-bg-light hover:bg-widget-input-light dark:bg-widget-input-dark text-white rounded-full shadow-lg
-                       transition-colors duration-200 z-50'
-            aria-label='Open feature request form'
-          >
-            <img
-              src='https://upvoted.s3.us-east-1.amazonaws.com/public/logo_icon_light.svg'
-              alt='Upvoted'
-              className='w-12 h-12'
-            />
-          </button>
+          hideTrigger ? null : (
+            <button
+              onClick={() => setIsOpen(true)}
+              className='fixed bottom-0 right-0 flex items-center gap-2 m-6 px-1 py-1
+                         bg-widget-bg-light hover:bg-widget-input-light dark:bg-widget-input-dark text-white rounded-full shadow-lg
+                         transition-colors duration-200 z-50'
+              aria-label='Open feature request form'
+            >
+              <img
+                src='https://upvoted.s3.us-east-1.amazonaws.com/public/logo_icon_light.svg'
+                alt='Upvoted'
+                className='w-12 h-12'
+              />
+            </button>
+          )
         ) : (
           <div
             className='fixed inset-0 bg-widget-bg-light dark:bg-widget-bg-dark lg:right-0 lg:left-auto lg:w-[500px]
