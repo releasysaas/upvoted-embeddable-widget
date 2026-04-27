@@ -15,7 +15,7 @@ This widget lets you inlcude the Upvoted feature requests in any website. [Upvot
 
    ```html
    <script
-     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
+     src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.1/dist/widget.js"
      defer
      data-client-key="YOUR_API_TOKEN"
      data-class-name="dark"
@@ -34,7 +34,7 @@ Minimal example (inserts after the script tag):
 
 ```html
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.1/dist/widget.js"
   defer
   data-mode="board"
   data-client-key="YOUR_API_TOKEN"
@@ -47,7 +47,7 @@ Mount into a specific element:
 ```html
 <div id="upvoted-board-here"></div>
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.1/dist/widget.js"
   defer
   data-mode="board"
   data-embed-target="#upvoted-board-here"
@@ -82,7 +82,7 @@ Example with the new attributes:
 ```html
 <div id="upvoted-board-here"></div>
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.1/dist/widget.js"
   defer
   data-mode="board"
   data-embed-target="#upvoted-board-here"
@@ -105,7 +105,7 @@ link in a menu, etc.).
 <button id="open-feedback-btn" type="button">Send us feedback</button>
 
 <script
-  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.0/dist/widget.js"
+  src="https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@2.1.1/dist/widget.js"
   defer
   data-mode="custom"
   data-trigger-id="open-feedback-btn"
