@@ -14,8 +14,8 @@ This widget lets you inlcude the Upvoted feature requests in any website. [Upvot
 To get started, follow these steps:
 
 1. Clone this repository to your local machine.
-2. Install the dependencies by running `npm install` or `pnpm install` depending on your preferred package manager.
-3. Run the development server by running `npm run dev` or `pnpm dev`.
+2. Install the dependencies by running `npm install`.
+3. Run the development server by running `npm run dev`.
 4. Open your browser and navigate to `http://localhost:5173` to see the widget in action.
 
 ### Structure
@@ -51,16 +51,10 @@ git clone https://github.com/releasysaas/upvoted-embeddable-widget.git
 
 ### Installing Dependencies
 
-To install the dependencies, you can use the following commands:
+To install the dependencies, you can use the following command:
 
 ```bash
 npm install
-```
-
-or
-
-```bash
-pnpm install
 ```
 
 ### Running the Development Server
@@ -69,12 +63,6 @@ To run the development server, you can use the following command:
 
 ```bash
 npm run dev
-```
-
-or
-
-```bash
-pnpm dev
 ```
 
 ### Opening the Widget in Your Browser
@@ -89,24 +77,12 @@ To bundle the widget, you can use the following command:
 npm run build:widget
 ```
 
-or
-
-```bash
-pnpm build:widget
-```
-
 This will create a `dist` directory with the bundled widget files.
 
 For running the widget in production mode, you can use the following command:
 
 ```bash
 npm run build:widget:production
-```
-
-or
-
-```bash
-pnpm build:widget:production
 ```
 
 Production mode will use the environment variables from the `.env.production` file.
@@ -119,24 +95,12 @@ To test the bundled widget, you can use the following command:
 npm run serve
 ```
 
-or
-
-```bash
-pnpm serve
-```
-
 This will start a local server and serve the widget at `http://localhost:33333/index.html`.
 
 Then in an other shell run:
 
 ```bash
 npm run serve:widget
-```
-
-or
-
-```bash
-pnpm serve:widget
 ```
 
 ## Board embed — local testing
@@ -200,6 +164,14 @@ git tag 2.0.0
 ```
 git push origin --tags
 ```
+
+## Clearing the cache
+
+To clear the cache on JSDELIVER, go to https://www.jsdelivr.com/tools/purge and purge the following paths:
+
+- `https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@main/dist/widget.js`
+- `https://cdn.jsdelivr.net/gh/releasysaas/upvoted-embeddable-widget@main/dist/widget.css`
+
 
 ## Contributing
 
